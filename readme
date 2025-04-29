@@ -6,7 +6,7 @@ Throughout the code,
 - Fig3 refers to Controller 2
 - Fig4 refers to Controller 3
 The code was written in reference to the figures in Marina's IW.
-The Fig3 implementation reflects Controller 3 in my paper, not Fig. 3 from Marina's work, 
+The Fig3 implementation reflects Controller 2 in my paper, not Fig. 3 from Marina's work, 
 because it was updated to correctly interface with the datapath.
 
 All of the following code, except SM.t.v are my own work.
