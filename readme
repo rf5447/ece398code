@@ -12,10 +12,6 @@ because it was updated to correctly interface with the datapath.
 All of the following code, except SM.t.v are my own work.
 The formatting of the code is largely inspired by the format used in ECE 206.
 
-In the following folders:
-
-Verilog:
-
 The Verilog controllers are, for each Fig#:
 - SMControlFig#.v: Basic behavioral implementation of Controller "# - 1" of 4-bit Multiplier
 - SMControlFig#Bits.v: Behavioral implementation of Controller "# - 1" with n-bit input mr (for timing/scaling experiments)
@@ -26,7 +22,6 @@ Other .v files include:
 - SMDatapath.v: 4-bit Sequential/Shift Multiplier Datapath (only used to check correctness of controllers)
 - SM.v: Connects SMControlFig#.v or SMControlFig#Structural.v with SMDatapath.v
 
-Testbenches:
 .t.v files include:
 - SM.t.v: Modified version of Marina's Multiplier.t.v that tests SM.v for correctness (change numbers in the testbench for this)
 - SMTTFSMBF.t.v: Brute Force Truth Table Extraction of 4-bit Controllers
@@ -40,7 +35,6 @@ To simulate for truth table extraction, compile SMTTFSM*.t.v with the controller
 >> g++ measure.cpp -o measure.exe -static
 >> measure.exe
 
-TruthTabletoFSM:
 To parse the .vcd output, use this series of commands (copy and paste the whole thing in the command line):
 >> py -u vcd_to_csv_json.py                                                 
 >> py -u json_simplification.py 
