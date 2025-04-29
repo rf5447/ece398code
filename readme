@@ -1,0 +1,63 @@
+Rena Feng
+Junior independent Work Code Spring 2025
+
+Throughout the code, 
+- Fig2 refers to Controller 1
+- Fig3 refers to Controller 2
+- Fig4 refers to Controller 3
+The code was written in reference to the figures in Marina's IW.
+The Fig3 implementation reflects Controller 3 in my paper, not Fig. 3 from Marina's work, 
+because it was updated to correctly interface with the datapath.
+
+All of the following code, except SM.t.v are my own work.
+The formatting of the code is largely inspired by the format used in ECE 206.
+
+In the following folders:
+
+Verilog:
+
+The Verilog controllers are, for each Fig#:
+- SMControlFig#.v: Basic behavioral implementation of Controller "# - 1" of 4-bit Multiplier
+- SMControlFig#Bits.v: Behavioral implementation of Controller "# - 1" with n-bit input mr (for timing/scaling experiments)
+- SMControlFig#Structural.v: Basic structural implementation of Controller "# - 1" of 4-bit Multiplier
+- SMControlFig#StructuralFSM.v: Basic structural implementation of Controller "# - 1" of 4-bit Multiplier with reset_state and other variables revealed in module declaration (for truth table extraction)
+
+Other .v files include:
+- SMDatapath.v: 4-bit Sequential/Shift Multiplier Datapath (only used to check correctness of controllers)
+- SM.v: Connects SMControlFig#.v or SMControlFig#Structural.v with SMDatapath.v
+
+Testbenches:
+.t.v files include:
+- SM.t.v: Modified version of Marina's Multiplier.t.v that tests SM.v for correctness (change numbers in the testbench for this)
+- SMTTFSMBF.t.v: Brute Force Truth Table Extraction of 4-bit Controllers
+- SMTTFSMFast.t.v: Reachable-Only Truth Table Extraction of 4-bit Controllers
+- SMTTFSMTimingBF.t.v: Brute Force Truth Table Extraction of n-bit Controllers (used for timing experiments)
+- SMTTFSMTimingFast.t.v: Reachable-Only Truth Table Extraction of n-bit Controllers (used for timing experiments)
+
+To simulate for truth table extraction, compile SMTTFSM*.t.v with the controller and run the measure.cpp program to measure simulation time in s:
+>> iverilog -o SMTTTiming*.out SMControlFig#Bits.v SMTTFSMTiming*.t.v
+   *: fill in with relevant fields: either BF or Fast
+>> g++ measure.cpp -o measure.exe -static
+>> measure.exe
+
+TruthTabletoFSM:
+To parse the .vcd output, use this series of commands (copy and paste the whole thing in the command line):
+>> py -u vcd_to_csv_json.py                                                 
+>> py -u json_simplification.py 
+>> py -u truth_table.py 
+>> py -u remove_unreachable.py 
+>> py -u graph_representation.py
+>> py -u reformat_json_graph.py
+File names (of the .vcd, .json, and .csv files) need to be changed within these programs. Folders Fig2, Fig3, and Fig4 house the outputs of these programs run on each of their corresponding simulation outcomes.
+
+The output of the above process is a .json file:
+- SMTTFig#.json: Represents the FSM graph, confirmed to match with the original FSM
+
+The final taint tracking with taint-kill algorithm can be run on the .json outputs of the above process:
+>> py -u check_dependencies.py
+
+SofiaMarinaCode: This folder contains code that this project built off.
+
+References:
+Sofia Marina, “Improving Taint Tracking Precision for Side Channel Vulnerability Detection,” Fall 2024.
+F. Vahid, Digital Design with RTL Design, VHDL, and Verilog, 2nd ed. Hoboken, NJ, USA: John Wiley & Sons, Mar. 9, 2010.
